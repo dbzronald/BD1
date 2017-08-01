@@ -1,0 +1,37 @@
+INSERT INTO
+    dbo.Facts 
+(
+    DimDateID
+,   DimIPID
+,   DimRefererID
+,   DimRequestID
+,   DimStatusCodeID
+,   DimUserAgentID
+)
+SELECT
+    DimDate.ID 
+,   DimIP.ID 
+,   DimReferer.ID
+,   DimRequest.ID 
+,   DimStatusCode.ID
+,   DimUserAgent.ID 
+FROM
+    TMP T
+    LEFT OUTER JOIN
+        dbo.DimDate 
+        ON DimDate.Data = T.DateTime
+    LEFT OUTER JOIN
+        dbo.DimIP
+        ON DimIP.IP = T.RemoteHostName
+    LEFT OUTER JOIN
+        dbo.DimReferer
+        ON DimReferer.Referer = T.Referer
+    LEFT OUTER JOIN
+        dbo.DimRequest
+        ON DimRequest.Request = T.Request
+    LEFT OUTER JOIN
+        dbo.DimStatusCode
+        ON DimStatusCode.StatusCode = T.StatusCode
+    LEFT OUTER JOIN
+        dbo.DimUserAgent
+        ON DimUserAgent.UserAgent = T.UserAgent
